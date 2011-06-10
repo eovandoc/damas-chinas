@@ -77,6 +77,7 @@ public class Tablero {
 	
 	public boolean equals(Tablero e){
 		return e.getTablero()==this.getTablero();
+		
 	}
 	
 
