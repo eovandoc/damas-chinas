@@ -46,6 +46,7 @@ public class Heuristica {
 							valor+=3;
 					}
 					
+					
 				}else if(e.getTurno()==1){
 					if(e.getTablero().getCasilla(i,j)==2)
 						valor+=pesos2[i][j];
