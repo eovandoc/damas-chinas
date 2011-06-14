@@ -4,4 +4,6 @@
   <artifactId>damas</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Damas Chinas</name>
+  <dependencies>
+  </dependencies>
 </project>

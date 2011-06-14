@@ -15,6 +15,11 @@ public class Coordenada {
 		this.columna = columna;
 	}
 	
+	public Coordenada(Coordenada a) {
+		this.fila = a.getFila();
+		this.columna = a.getColumna();
+	}
+	
 	public int getFila() {
 		return fila;
 	}
@@ -32,7 +37,7 @@ public class Coordenada {
 	}
 	
 	public boolean igual(Coordenada a){
-		System.out.println("Comparando ("+fila+","+columna+") con ("+a.getFila()+","+a.getColumna()+")");
+		//System.out.println("Comparando ("+fila+","+columna+") con ("+a.getFila()+","+a.getColumna()+")");
 		if( a.getFila()==this.getFila() && a.getColumna()==this.getColumna())
 			return true;
 		else
@@ -43,8 +48,12 @@ public class Coordenada {
 		return getFila()>=0 && getFila()<=8 && getColumna()>=0 && getColumna()<=8;
 	}
 	
-	public String mostrar(){
-		return "("+getFila()+","+getColumna()+")";
+	public void mostrar(){
+		System.out.println(this.toString());
+	}
+	
+	public String toString(){
+		return "("+fila+","+columna+")";
 	}
 	
 }

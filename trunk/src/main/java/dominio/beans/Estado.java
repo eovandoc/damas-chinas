@@ -12,10 +12,10 @@ import excepciones.MovimientoIlegalException;
  * Clase para representar el estado del juego
  *
  */
-public class Estado {
+public class Estado implements Cloneable {
 	
 	private Tablero tablero;
-	private int evaluacion;
+	private double evaluacion;
 	
 	
 	/**
@@ -25,14 +25,15 @@ public class Estado {
 	private int turno;
 	
 	public Estado() {
-		super();
+		
 		tablero=new Tablero();
 		turno=1;
 	}
 	
 	public Estado(Estado e){
-		setTablero(e.getTablero());
-		setTurno(e.getTurno());
+		evaluacion=e.getEvaluacion();
+		turno=e.getTurno();
+		tablero=new Tablero(e.getTablero());
 	}
 	
 	public Estado(int turno){
@@ -57,12 +58,13 @@ public class Estado {
 		if(tablero.getCasilla(c,d)==0 && tablero.getCasilla(a,b)==turno){
 			tablero.setCasilla(c,d,turno);
 			tablero.setCasilla(a,b,0);
+			
 			if(getTurno()==1)
 				setTurno(2);
 			else
 				setTurno(1);
 		}else{
-			throw new MovimientoIlegalException();
+			throw new MovimientoIlegalException("Coordenadas no validas");
 		}
 	}
 	
@@ -71,16 +73,35 @@ public class Estado {
 			if(tablero.getCasilla(a.getDestino())==0 && tablero.getCasilla(a.getOrigen())==turno){
 				tablero.setCasilla(a.getDestino(),turno);
 				tablero.setCasilla(a.getOrigen(),0);
+				//Mientras la accion recorra mas distancia, tiene mayor evaluacion
+				evaluacion=Math.sqrt(Math.pow(a.getDestino().getFila()-a.getOrigen().getFila(),2)+
+									 Math.pow(a.getDestino().getColumna()-a.getOrigen().getColumna(),2));
 				if(getTurno()==1)
 					setTurno(2);
 				else
 					setTurno(1);
 			}else{
-				throw new MovimientoIlegalException();
+				throw new MovimientoIlegalException("Destino ocupado o origen desocupado");
 			}
 		}else{
-			throw new MovimientoIlegalException();
+			throw new MovimientoIlegalException("Coordenadas de la accion no válidas");
 		}
+	}
+	
+	public Object clone(){
+		Estado clon=null;
+		try {
+			clon=(Estado) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+		((Estado)clon).setEvaluacion(getEvaluacion());
+		((Estado)clon).setTurno(getTurno());
+		((Estado)clon).setTablero((Tablero)getTablero().clone());
+		
+		
+		return clon;
 	}
 	
 	public int getTurno() {
@@ -100,11 +121,11 @@ public class Estado {
 		this.tablero = tablero;
 	}
 
-	public int getEvaluacion() {
+	public double getEvaluacion() {
 		return evaluacion;
 	}
 
-	public void setEvaluacion(int evaluacion) {
+	public void setEvaluacion(double evaluacion) {
 		this.evaluacion = evaluacion;
 	}
 

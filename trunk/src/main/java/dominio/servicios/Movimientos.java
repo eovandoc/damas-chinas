@@ -12,6 +12,7 @@ import dominio.beans.Coordenada;
 import dominio.beans.Estado;
 import dominio.beans.Tablero;
 
+import excepciones.AccionNoValidaException;
 import excepciones.MovimientoIlegalException;
 import excepciones.PosicionIlegalException;
 
@@ -43,7 +44,7 @@ public class Movimientos {
 	
 	/*ESTE,SURESTE,SUROESTE,OESTE,NOROESTE,NORESTE
 	 * Valores a sumar a las filas y las columnas*/
-	static int [][] mover= {	{-1,1},
+	public static int [][] mover= {	{-1,1},
 								{0,1},
 								{1,0},
 								{1,-1},
@@ -144,7 +145,7 @@ public class Movimientos {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void buscarSaltos(Tablero tablero,Arbol<Coordenada> arbol,List visitadas,List destinos)throws PosicionIlegalException{
 		List<Coordenada> sucesores=saltosSimples(tablero,arbol.getNodo().getFila(),arbol.getNodo().getColumna());
-		System.out.println("Analizando coordenada"+arbol.getNodo().getFila()+","+arbol.getNodo().getColumna());
+		//System.out.println("Analizando coordenada"+arbol.getNodo().getFila()+","+arbol.getNodo().getColumna());
 		visitadas.add(new Coordenada(arbol.getNodo().getFila(),arbol.getNodo().getColumna()));
 		
 		for(int i=0;i<sucesores.size();i++){
@@ -178,35 +179,45 @@ public class Movimientos {
 	 * */
 	
 	public static List<Accion> movimientos_posibles(Tablero tablero,Coordenada origen)throws PosicionIlegalException{
-		Tablero aux=tablero;
+		Tablero aux=new Tablero(tablero);
 		
 		/*Lista de acciones o movimientos posibles*/
-		List<Accion> posibles=new ArrayList<Accion>();
+		List<Accion> accionesPosibles=new ArrayList<Accion>();
 		
 		/*Lista de coordenadas destinos posibles*/
-		List<Coordenada> destinos=new ArrayList<Coordenada>();
-		
+		List<Coordenada> destinosPosibles=new ArrayList<Coordenada>();
 		/*Lista de casillas visitadas*/
 		List<Coordenada> visitadas=new ArrayList<Coordenada>();
-		
 		/*Arbol donde se construiran todos los saltos posibles*/
 		Arbol<Coordenada> arbol=new Arbol<Coordenada>(origen);
 
 		if(saltos_simples(aux,origen).size()>0)
-			buscar_saltos(aux,arbol,visitadas,destinos);
+			buscar_saltos(aux,arbol,visitadas,destinosPosibles);
 		
-		for(Coordenada a:destinos)
-			posibles.add(new Accion(origen,a));
+		try {
+				for(Coordenada destino:destinosPosibles)
+					accionesPosibles.add(new Accion(origen,destino));
+		} catch (AccionNoValidaException e) {
+				System.out.println("Se genero una accion no valida en los saltos posibles de "+origen.toString());
+				e.printStackTrace();
+		}
 		
-		/*Agrega movimientos simples*/
-		posibles.addAll(movimientos_simples(aux,origen));
-
-		return posibles;
+		destinosPosibles=movimientos_simples(aux,origen);
+		
+		for(Coordenada destino:destinosPosibles)
+			try {
+				accionesPosibles.add(new Accion(origen,destino));
+			} catch (AccionNoValidaException e) {
+				System.out.println("Se genero una accion no valida en los movimientos posibles de "+origen.toString());
+				e.printStackTrace();
+			}
+		
+		return accionesPosibles;
 	}
 	
-	public static List<Accion> saltos_simples(Tablero tablero,Coordenada origen) throws PosicionIlegalException{
+	public static List<Coordenada> saltos_simples(Tablero tablero,Coordenada origen) throws PosicionIlegalException{
 		
-		List<Accion> movimientos=new ArrayList<Accion>();
+		List<Coordenada> movimientos=new ArrayList<Coordenada>();
 		
 		Coordenada medio=new Coordenada();
 		Coordenada destino=new Coordenada();
@@ -219,21 +230,24 @@ public class Movimientos {
 				/*Posicion de la casilla a destino*/
 				destino.setFila(origen.getFila()+2*mover[i][0]);
 				destino.setColumna(origen.getColumna()+2*mover[i][1]);
-		
-				if(destino.esValida() && tablero.getCasilla(destino)==0 && tablero.getCasilla(medio)!=0)
-					movimientos.add(new Accion(origen,destino));
+				
+				if(medio.esValida() && tablero.getCasilla(medio)!=0){
+					if(destino.esValida() && tablero.getCasilla(destino)==0)
+						movimientos.add(new Coordenada(destino));
+				}
 			}
 		}else{
+			System.out.println("Saltos Simples. Coordenada "+origen.toString()+" no válida");
 			throw new PosicionIlegalException();
 		}			
 		return movimientos;
 	}
 	
-	public static List<Accion> movimientos_simples(Tablero tablero,Coordenada origen) throws PosicionIlegalException{
+	public static List<Coordenada> movimientos_simples(Tablero tablero,Coordenada origen) throws PosicionIlegalException{
 
 		Coordenada destino=new Coordenada();
 		
-		List<Accion> movimientos=new ArrayList<Accion>();
+		List<Coordenada> movimientos=new ArrayList<Coordenada>();
 		
 		if(origen.esValida()){
 			for(int i=0;i<6;i++){
@@ -242,10 +256,11 @@ public class Movimientos {
 				destino.setColumna(origen.getColumna()+mover[i][1]);
 
 				if(destino.esValida() && tablero.getCasilla(destino)==0)
-					movimientos.add(new Accion(origen,destino));
+					movimientos.add(new Coordenada(destino));
 			}	
 		}else{
-				throw new PosicionIlegalException();
+			System.out.println("Movimientos Simples. Coordenada "+origen.toString()+" no válida");
+			throw new PosicionIlegalException();
 		}			
 		
 		return movimientos;
@@ -254,7 +269,7 @@ public class Movimientos {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void buscar_saltos(Tablero tablero,Arbol<Coordenada> arbol,List visitadas,List destinos)throws PosicionIlegalException{
 		List<Coordenada> sucesores=saltosSimples(tablero,arbol.getNodo().getFila(),arbol.getNodo().getColumna());
-		System.out.println("Analizando coordenada"+arbol.getNodo().getFila()+","+arbol.getNodo().getColumna());
+		//System.out.println("Analizando coordenada"+arbol.getNodo().getFila()+","+arbol.getNodo().getColumna());
 		visitadas.add(new Coordenada(arbol.getNodo().getFila(),arbol.getNodo().getColumna()));
 		
 		for(int i=0;i<sucesores.size();i++){
