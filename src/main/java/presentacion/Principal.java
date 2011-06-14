@@ -3,6 +3,9 @@ package presentacion;
 import javax.print.attribute.standard.JobMessageFromOperator;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -357,6 +360,7 @@ public class Principal extends JFrame implements Observer{
 		if (jRadioButtonMenuNormal == null) {
 			jRadioButtonMenuNormal = new JRadioButtonMenuItem();
 			jRadioButtonMenuNormal.setText("Normal");
+			jRadioButtonMenuNormal.setSelected(true);
 			jRadioButtonMenuNormal.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if(jRadioButtonMenuNormal.isSelected()){	
@@ -379,9 +383,11 @@ public class Principal extends JFrame implements Observer{
 	 * @return javax.swing.JRadioButtonMenuItem	
 	 */
 	private JRadioButtonMenuItem getJRadioButtonMenuDificil() {
+		
 		if (jRadioButtonMenuDificil == null) {
 			jRadioButtonMenuDificil = new JRadioButtonMenuItem();
 			jRadioButtonMenuDificil.setText("Dificil");
+			setNivel(2);
 			jRadioButtonMenuDificil.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if(jRadioButtonMenuDificil.isSelected()){					
