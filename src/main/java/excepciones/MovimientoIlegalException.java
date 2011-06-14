@@ -10,5 +10,9 @@ public class MovimientoIlegalException extends Exception {
 		super();
 	}
 	
+	public MovimientoIlegalException(String mensaje){
+		super(mensaje);
+	}
+	
 	
 }

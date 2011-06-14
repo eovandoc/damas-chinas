@@ -1,6 +1,7 @@
 package dominio.beans;
 
-public class Tablero {
+
+public class Tablero implements Cloneable{
 	private int [][] tablero={{1,1,1,1,0,0,0,0,0},
 							 {1,1,1,0,0,0,0,0,0},
 							 {1,1,0,0,0,0,0,0,0},
@@ -12,13 +13,18 @@ public class Tablero {
 							 {0,0,0,0,0,2,2,2,2}};
 
 	public Tablero() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Tablero(int[][] tablero) {
-		super();
 		this.tablero = tablero;
+	}
+	
+	public Tablero(Tablero t) {
+		for(int i=0;i<tablero.length;i++){
+			for(int j=0;j<tablero[i].length;j++)
+				tablero[i][j]=t.getCasilla(i, j);
+		}	
 	}
 
 
@@ -32,10 +38,9 @@ public class Tablero {
 	
 	public int getCasilla(int i,int j) {
 		try{
-		return tablero[i][j];
-		}catch(IndexOutOfBoundsException e){
-			/*En caso la coordenada no est� dentro del tablero*/
-			e.printStackTrace();
+			return tablero[i][j];
+		}catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
 			return -1;
 		}
 	}
@@ -48,7 +53,6 @@ public class Tablero {
 		try{
 		return tablero[a.getFila()][a.getColumna()];
 		}catch(IndexOutOfBoundsException e){
-			/*En caso la coordenada no est� dentro del tablero*/
 			e.printStackTrace();
 			return -1;
 		}
@@ -80,6 +84,32 @@ public class Tablero {
 		
 	}
 	
+	public String toString(){
+		String cadena="";
 
-
+		for(int i=0;i<getTablero().length;i++){
+			for(int j=0;j<getTablero()[i].length;j++){
+				cadena+=("["+getTablero()[i][j]+"]");
+			}
+			cadena+="\n";
+		}
+		return cadena;
+	}
+	
+	public void mostrar(){
+		System.out.println(this.toString());
+	}
+	
+	public Object clone(){
+		Tablero clon= null;
+		
+		try {
+			clon=(Tablero)super.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		((Tablero)clon).setTablero(getTablero());
+		return clon;
+	}
 }

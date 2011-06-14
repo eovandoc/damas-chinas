@@ -1,6 +1,7 @@
 package dominio.algoritmos;
 
 import dominio.beans.Estado;
+import dominio.servicios.Movimientos;
 
 public class Heuristica {
 	
@@ -26,24 +27,49 @@ public class Heuristica {
 	
 	/*Evalua en base a pesos y en base a cuantas fichas estan fuera de su posicion inicial*/
 	public static double evaluar(Estado e){
+		int [][] mover=Movimientos.mover;
+		
 		double valor=0;
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
-				if(e.getTurno()==1){
-					if(e.getTablero().getCasilla(i,j)==2)
-						valor+=pesos2[i][j];
-					if(pesos2[i][j]==0 && e.getTablero().getCasilla(i,j)!=2)
-						valor++;
-				}else if(e.getTurno()==2){
+				if(e.getTurno()==2){
 					if(e.getTablero().getCasilla(i,j)==1)
 						valor+=pesos1[i][j];
+					//Agrega 3 si el estado desocupa una posicion de inicio de 1
 					if(pesos1[i][j]==0 && e.getTablero().getCasilla(i,j)!=1)
-						valor++;
+						valor+=4;
+					
+					/*Da 3 puntos cuanto mientras hayan mas fichas vecinas*/
+					
+					for(int k=0;k<6;k++){
+						if(e.getTablero().getCasilla(i+mover[k][0],j+mover[k][1])==1)
+							valor+=3;
+					}
+					
+				}else if(e.getTurno()==1){
+					if(e.getTablero().getCasilla(i,j)==2)
+						valor+=pesos2[i][j];
+					//Agrega 3 si el estado desocupa una posicion de inicio de 2
+					if(pesos2[i][j]==0 && e.getTablero().getCasilla(i,j)!=2)
+						valor+=4;
+					
+					/*Da 3 puntos cuanto mientras hayan mas fichas vecinas*/
+					
+					for(int k=0;k<6;k++){
+						if(e.getTablero().getCasilla(i+mover[k][0],j+mover[k][1])==2)
+							valor+=3;
+					}
+					
+					
 				}
+				
+				
+				
 			}
 		}
+		valor+=e.getEvaluacion();
 		
-		return 0;
+		return valor;
 	} 
 
 }

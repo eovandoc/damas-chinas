@@ -10,4 +10,8 @@ public class PosicionIlegalException extends Exception {
 	public PosicionIlegalException(){
 		super();
 	}
+	
+	public PosicionIlegalException(String mensaje){
+		super(mensaje);
+	}
 }

@@ -15,25 +15,41 @@ public class Minimax {
 	private static int profundidad=0;
 	
 	public static Accion minimax(Estado estado){
+		//System.out.println("Iniciando analisis minimax. Estado actual");
+		//estado.getTablero().mostrar();
+		//System.out.println("Turno:"+ estado.getTurno());
+		
 		Accion mejor_mov=new Accion();
 		double max,max_actual;
 		max=-1.0/0.0;
-		Estado aux=new Estado();
+		
+		Estado aux=new Estado(estado);
 		
 		profundidad++;
-		for(Accion a:movimientosPosibles(estado)){
+		List<Accion> movPosibles=movimientosPosibles(aux);
+		List<Double> listaSimetria=new ArrayList<Double>();
+		
+		for(Accion a:movPosibles){
 			try{
-				aux=estado;
 				aux.mover(a);
-				max_actual=valorMin(aux);
-				if(max_actual>max){
-					max=max_actual;
-					mejor_mov=a;
+				/*Verficia que no haya un estado con la misma heuristica*/
+				double eva=Heuristica.evaluar(aux);
+				if(!listaSimetria.contains(eva)){
+					max_actual=valorMin(aux);
+					if(max_actual>max){
+						max=max_actual;
+						mejor_mov=a;
+					}
+					listaSimetria.add(eva);
 				}
+					
 			}catch(MovimientoIlegalException e){
-				
+				//e.printStackTrace();
 			}
+			aux=new Estado(estado);
 		}
+		System.out.println("Sucesores de profundidad 1 analizados "+movPosibles.size());
+		
 		profundidad--;
 		return mejor_mov;
 	}
@@ -41,7 +57,9 @@ public class Minimax {
 	public static double valorMax(Estado estado){
 		double valor_max=0.0;
 		double valor_min=0.0;
-		Estado aux=new Estado();
+		Estado aux=new Estado(estado);
+		
+		List<Double> listaSimetria=new ArrayList<Double>();
 		
 		profundidad++;
 		
@@ -52,14 +70,22 @@ public class Minimax {
 			valor_max=-1.0/0.0;
 			for(Accion a:movimientosPosibles(estado)){
 				try{
-				aux=estado;
-				aux.mover(a);
-				valor_min=valorMin(aux);
-				if(valor_min>valor_max)
-					valor_max=valor_min;
-				}catch(MovimientoIlegalException e){
+					aux=new Estado(estado);
+					aux.mover(a);
 					
+					/*Verficia que no haya un estado con la misma heuristica*/
+					double eva=Heuristica.evaluar(aux);
+					if(!listaSimetria.contains(eva)){
+						valor_min=valorMin(aux);
+						if(valor_min>valor_max)
+							valor_max=valor_min;
+						listaSimetria.add(eva);
+					}
+					
+				}catch(MovimientoIlegalException e){
+					//e.printStackTrace();
 				}
+				aux=new Estado(estado);
 			}
 			profundidad--;
 			return valor_max;
@@ -69,7 +95,9 @@ public class Minimax {
 	public static double valorMin(Estado estado){
 		double valor_min=0.0;
 		double valor_max=0.0;
-		Estado aux=new Estado();
+		
+		Estado aux=new Estado(estado);
+		List<Double> listaSimetria=new ArrayList<Double>();
 		
 		profundidad++;
 
@@ -81,14 +109,23 @@ public class Minimax {
 			valor_min=1.0/0.0;
 			for(Accion a:movimientosPosibles(estado)){
 				try{
-				aux=estado;
+				aux=new Estado(estado);
 				aux.mover(a);
-				valor_max=valorMax(aux);
-				if(valor_max<valor_min)
-					valor_min=valor_max;
-				}catch(MovimientoIlegalException e){
-					
+				
+				/*Verficia que no haya un estado con la misma heuristica*/
+				double eva=Heuristica.evaluar(aux);
+				if(!listaSimetria.contains(eva)){
+					valor_max=valorMax(aux);
+					if(valor_max<valor_min)
+						valor_min=valor_max;
 				}
+				listaSimetria.add(eva);	
+					
+				}catch(MovimientoIlegalException e){
+					//e.printStackTrace();
+				}
+				
+				aux=new Estado(estado);
 			}
 			profundidad--;
 			return valor_min;
@@ -106,7 +143,7 @@ public class Minimax {
 				}
 			}
 		}catch(PosicionIlegalException e1){
-			
+			//e1.printStackTrace();
 		}
 		
 		return movimientos;
