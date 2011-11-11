@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/jee 
+		http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/resources/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+
+	<!-- Configuracion del framework de persistencia -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="/WEB-INF/sql-map-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<!-- DAO PADRE -->
+	<bean id="baseDAO" abstract="true">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="clienteDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.ClienteDAOImpl" parent="baseDAO" />
+	<bean id="loginDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.LoginDAOImpl" parent="baseDAO" />
+	<bean id="mantenimientoDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.MantenimientoDAOImpl" parent="baseDAO" />
+</beans>

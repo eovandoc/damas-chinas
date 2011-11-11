@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Objeto Servicio -->
+
+	<bean id="service" class="diseno.sistemas.service.impl.ServiceImpl">
+		<property name="loginService" ref="loginService"/>
+		<property name="clienteService" ref="clienteService"/>
+	</bean>
+	
+	<!-- Exporter -->
+	<bean name="exporter"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="service" />
+		<property name="serviceInterface" value="diseno.sistemas.service.Service" />
+	</bean>
+
+
+</beans>

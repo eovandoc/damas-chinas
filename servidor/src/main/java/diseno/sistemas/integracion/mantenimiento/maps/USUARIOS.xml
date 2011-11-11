@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="mantenimiento.USUARIOS">
+
+  <resultMap id="USUARIO" class="diseno.sistemas.dominio.mantenimiento.Usuario">
+   	<result column="ID_USUARIO" property="codigo"/>
+   	<result column="TIPO_DOCUMENTO" property="tipoDocumento"/>
+   	<result column="PERFIL" property="perfil"/>
+   	<result column="NOMBRES" property="nombres"/>
+   	<result column="A_PATERNO" property="aPaterno"/>
+   	<result column="A_MATERNO" property="aMaterno"/>
+   	<result column="DOCUMENTO" property="nroDocumento"/>
+   		  	        
+   </resultMap>
+   
+	<select id="iniciarSesion" resultMap="USUARIO" parameterClass="diseno.sistemas.dominio.mantenimiento.Usuario">
+	select 	U.ID_USUARIO,
+				TD.DESCRIPCION AS TIPO_DOCUMENTO,
+				P.DESCRIPCION AS PERFIL,
+				U.NOMBRES,
+				U.A_PATERNO,
+				U.A_MATERNO,U.NRO_DOCUMENTO AS DOCUMENTO
+				from USUARIO U, TIPO_DOCUMENTO TD, PERFILES P
+				where U.ID_TIPO_DOCUMENTO=TD.ID_TIPO_DOCUMENTO
+				and U.ID_PERFIL=P.ID_PERFIL
+				and U.CUENTA=#cuenta#
+				and U.CONTRASENA=#password#
+	</select>
+
+
+</sqlMap>

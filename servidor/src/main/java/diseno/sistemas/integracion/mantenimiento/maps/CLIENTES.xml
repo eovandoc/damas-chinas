@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="mantenimiento.CLIENTES">
+
+  <resultMap id="CLIENTE" class="diseno.sistemas.dominio.mantenimiento.Cliente">
+   	<result column="ID_CLIENTE" property="idCliente"/>
+   	<result column="TIPO_DOCUMENTO" property="tipoDocumento"/>
+   	<result column="ESTADO_CREDITO" property="estadoCredito"/>
+   	<result column="NOMBRES" property="nombres"/>
+   	<result column="A_PATERNO" property="aPaterno"/>
+   	<result column="A_MATERNO" property="aMaterno"/>
+   	<result column="DOCUMENTO" property="nroDocumento"/>
+   		  	        
+   </resultMap>
+   
+	
+	<select id="cargarTodosLosClientes" resultMap="CLIENTE">
+		select 	C.ID_CLIENTE,
+				TD.DESCRIPCION AS TIPO_DOCUMENTO,
+				EC.DESCRIPCION AS ESTADO_CREDITO,
+				C.NOMBRES,
+				C.A_PATERNO,
+				C.A_MATERNO,C.NRO_DOCUMENTO AS DOCUMENTO
+				from CLIENTE C,ESTADO_CREDITO EC, TIPO_DOCUMENTO TD
+				where C.ID_TIPO_DOCUMENTO=TD.ID_TIPO_DOCUMENTO
+				and C.ID_ESTADO_CREDITO=EC.ID_ESTADO_CREDITO
+	</select>
+
+
+</sqlMap>

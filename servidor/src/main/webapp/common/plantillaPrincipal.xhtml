@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:head>
+	<title><ui:insert name="title">Sistema de Ventas - Intradevco Industrial</ui:insert>
+	</title>
+
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputStylesheet library="css" name="default.css" />
+	<!-- <f:loadBundle var="msg" basename="resources.mensajes"></f:loadBundle>  -->
+</h:head>
+<h:body>
+	<div class="cabecera tui-widget ui-widget-header" align="center">
+		<h1>Sistema de ventas - Intradevco Industrial SAC</h1>
+	</div>
+	<div class="cuerpo">
+		<ui:insert name="cuerpo"></ui:insert>
+	</div>
+	<div class="pie">
+		<span style="float: left"> <label>CopyRight <a
+				href="http://www.sapolio.com/">Acerca</a> </label> </span> <span
+			style="float: right"> <a href="http://www.sapolio.com/">Centro
+				de ayuda</a> </span>
+	</div>
+
+</h:body>
+</html>

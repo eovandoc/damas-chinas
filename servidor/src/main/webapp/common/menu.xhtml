@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<h:form>
+		<p:menubar autoSubmenuDisplay="false">
+
+
+			<p:menuitem value="Productos" ajax="false"
+				action="#{navigationController.administracionProductos}" />
+			<p:menuitem value="Clientes" ajax="false"
+				action="#{navigationController.administracionClientes}" />
+			<p:menuitem value="Usuarios" ajax="false"
+				action="#{navigationController.administracionUsuarios}" />
+			<p:menuitem value="Perfiles" ajax="false"
+				action="#{navigationController.administracionPerfiles}" />
+			<p:submenu label="Otros">
+				<p:menuitem value="Tipos de comprobante" ajax="false"
+					action="#{navigationController.administracionClientes}" />
+				<p:menuitem value="Tipos de documento" ajax="false"
+					action="#{navigationController.administracionClientes}" />
+				<p:menuitem value="Estados de crédito" ajax="false"
+					action="#{navigationController.administracionClientes}" />
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+
+</ui:composition>

@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/common/plantillaPrincipal.xhtml">
+	<ui:define name="title">Sistema de Ventas - Intradevco </ui:define>
+	<ui:define name="cuerpo">
+
+		<p:panel styleClass="panelAdministracion">
+
+			<h:form>
+
+				<p:dataTable var="perfil"
+					value="#{mantenimientoController.listaPerfiles}" id="listaPerfiles">
+					<f:facet name="header">  
+					LISTA DE PERFILES
+			    	</f:facet>
+
+					<p:column>
+						<f:facet name="header">  
+				CODIGO
+            </f:facet>
+						<h:outputText value="#{perfil.codigo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">  
+				DESCRIPCION
+            </f:facet>
+						<h:outputText value="#{perfil.descripcion}" />
+					</p:column>
+				</p:dataTable>
+				
+				<p:commandButton value="Agregar Perfil" actionListener="#{mantenimientoController.ingresarPerfil}> </p:commandButton>
+			</h:form> 
+		</p:panel>
+	</ui:define>
+</ui:composition>

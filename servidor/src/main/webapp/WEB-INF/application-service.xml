@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="clienteService" class="diseno.sistemas.negocio.mantenimiento.impl.ClienteServiceImpl">
+		<property name="clienteDAO" ref="clienteDAO"></property>
+	</bean>
+	
+	<bean id="loginService" class="diseno.sistemas.negocio.mantenimiento.impl.LoginServiceImpl">
+		<property name="loginDAO" ref="loginDAO"></property>
+	</bean>
+
+	<bean id="mantenimientoService" class="diseno.sistemas.negocio.mantenimiento.impl.MantenimientoServiceImpl">
+		<property name="mantenimientoDAO" ref="mantenimientoDAO"></property>
+	</bean>
+</beans>
