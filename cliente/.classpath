@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/appFramework-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jnlp.jar"/>
+	<classpathentry kind="lib" path="lib/TableLayout.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/spring-aop-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-asm-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-beans-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-support-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-expression-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-web-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-webmvc-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
