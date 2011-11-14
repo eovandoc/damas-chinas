@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="lib/spring-expression-3.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-web-3.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-webmvc-3.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/miglayout-3.5.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

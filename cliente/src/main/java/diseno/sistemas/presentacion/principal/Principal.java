@@ -1,5 +1,7 @@
 package diseno.sistemas.presentacion.principal;
 
+import java.util.Observable;
+
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -15,6 +17,7 @@ public class Principal implements DatosListener{
 	 * Launch the application.
 	 */
 	
+	@SuppressWarnings("unused")
 	public Principal() {
 		super();
 		cargarServicio();
@@ -25,6 +28,8 @@ public class Principal implements DatosListener{
 
 
 	public void notificarCambios(DatosEvent datosEvent) {
+		if(datosEvent.getOrigen().equals("InicioSesion"))
+			System.out.println("Hay que llamar a la pantalla principal!");
 		System.out.println("Se ingreso con los datos del usuario "+datosEvent.getUsuario().getNombres());
 	}
 	
