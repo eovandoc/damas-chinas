@@ -11,8 +11,7 @@
 	</listener>
 	<listener>
 		<listener-class>
-			org.springframework.web.context.request.RequestContextListener
-		</listener-class>
+			org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -25,6 +24,10 @@
 		<param-value>Development</param-value>
 	</context-param>
 	<context-param>
+		<param-name>facelets.SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>south-street</param-value>
 	</context-param>
@@ -34,8 +37,8 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-	<servlet-name>Faces Servlet</servlet-name>
-	<url-pattern>/faces/*</url-pattern>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -64,7 +67,7 @@
 	<!-- Pagina de inicio -->
 
 	<welcome-file-list>
-		<welcome-file>default.xhtml</welcome-file>
+		<welcome-file>bienvenida.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<!-- Tiempo de la sesion -->

@@ -9,28 +9,24 @@
 
 		<h:form>
 
-			<p:commandButton actionListener="#{clienteController.cargarClientes}" value="Cargar Clientes"
-							update="listaClientes"/>
+			<p:commandButton actionListener="#{clienteController.cargarClientes}"
+				value="Cargar Clientes" update="listaClientes" />
 
-			<p:dataTable var="cliente" value="#{clienteController.listaClientes}" id="listaClientes">
+			<p:dataTable var="cliente" value="#{clienteController.listaClientes}"
+				id="listaClientes">
+
 				<p:column>
-					<f:facet name="header">  
-                    ID  
-            </f:facet>
+					<f:facet name="header">ID</f:facet>
 					<h:outputText value="#{cliente.idCliente}" />
 				</p:column>
 
 				<p:column>
-					<f:facet name="header">  
-                    T. Doc  
-            </f:facet>
+					<f:facet name="header">T. Doc</f:facet>
 					<h:outputText value="#{cliente.tipoDocumento}" />
 				</p:column>
 
 				<p:column>
-					<f:facet name="header">  
-                    Credito  
-            </f:facet>
+					<f:facet name="header">Credito</f:facet>
 					<h:outputText value="#{cliente.estadoCredito}" />
 				</p:column>
 
@@ -48,7 +44,7 @@
 				</p:column>
 			</p:dataTable>
 
-	</h:form>
+		</h:form>
 
 	</ui:define>
 </ui:composition>

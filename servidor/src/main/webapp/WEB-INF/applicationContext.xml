@@ -13,7 +13,7 @@
 	</bean>
 	
 	<!-- Exporter -->
-	<bean name="exporter"
+	<bean name="exporter" scope="session"
 		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="service" />
 		<property name="serviceInterface" value="diseno.sistemas.service.Service" />

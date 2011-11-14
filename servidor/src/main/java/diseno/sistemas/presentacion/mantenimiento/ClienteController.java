@@ -3,6 +3,7 @@ package diseno.sistemas.presentacion.mantenimiento;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -19,13 +20,14 @@ public class ClienteController implements Serializable{
 	
 	private static final long serialVersionUID = -2965560144677348728L;
 
+	
 	@ManagedProperty("#{clienteService}")
 	private ClienteService clienteService;
 	
 	private List<Cliente> listaClientes;
 	
 	public ClienteController(){
-		//listaClientes=clienteService.cargarTodosLosClientes();
+
 	}
 	
 	public void cargarClientes(){
@@ -46,7 +48,7 @@ public class ClienteController implements Serializable{
 	}
 
 	public List<Cliente> getListaClientes() {
-		return listaClientes;
+		return 	clienteService.cargarTodosLosClientes();
 	}
 
 	public void setListaClientes(List<Cliente> listaClientes) {

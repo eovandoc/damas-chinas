@@ -8,9 +8,9 @@
 
 	<sqlMap resource="diseno/sistemas/integracion/mantenimiento/maps/CLIENTES.xml" />
 	<sqlMap resource="diseno/sistemas/integracion/mantenimiento/maps/USUARIOS.xml" />
-	<sqlMap resource="diseno/sistemas/integracion/mantenimiento/maps/MANTENIMIENTO.xml" />
+	<sqlMap resource="diseno/sistemas/integracion/mantenimiento/maps/DATOS.xml" />
+	<sqlMap resource="diseno/sistemas/integracion/mantenimiento/maps/PRODUCTO.xml" />
 	
-
 
 </sqlMapConfig>
 

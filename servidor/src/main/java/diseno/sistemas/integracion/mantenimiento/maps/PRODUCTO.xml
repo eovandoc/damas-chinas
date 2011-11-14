@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="mantenimiento.PRODUCTO">
+
+
+	<typeAlias alias="productoBean"
+		type="diseno.sistemas.dominio.mantenimiento.Producto" />
+
+	<resultMap class="diseno.sistemas.dominio.mantenimiento.Producto"
+		id="PRODUCTO">
+		<result property="codigo" column="ID_PRODUCTO" />
+		<result property="descripcion" column="DESCRIPCION" />
+		<result property="stock" column="STOCK" />
+		<result property="unidadMedida" column="UNIDAD_MEDIDA" />
+		<result property="precio" column="PRECIO" />
+
+	</resultMap>
+
+
+	<select id="cargarTodosLosProductos" resultMap="PRODUCTO">
+		SELECT
+		P.ID_PRODUCTO, P.DESCRIPCION,P.STOCK, UM.DESCRIPCION AS
+		UNIDAD_MEDIDA,P.PRECIO
+		FROM PRODUCTO P, UNIDAD_MEDIDA UM
+		WHERE
+		UM.ID_UNIDAD_MEDIDA=P.ID_UNIDAD_MEDIDA
+	 
+	 </select>
+
+	<select id="cargarProductos" resultMap="PRODUCTO"
+		parameterClass="productoBean">
+
+		SELECT P.ID_PRODUCTO, P.DESCRIPCION,P.STOCK, UM.DESCRIPCION AS
+		UNIDAD_MEDIDA,P.PRECIO
+		FROM PRODUCTO P, UNIDAD_MEDIDA UM
+		<dynamic prepend="WHERE">
+			<isNotNull property="codigo" prepend="and">
+				P.ID_PRODUCTO=#codigo#
+   			 </isNotNull>
+			<isNotNull property="descripcion" prepend="and">
+				P.DESCRIPCION
+				like #descripcion#
+   			 </isNotNull>
+			<isNotNull property="stock" prepend="and">
+				P.STOCK=#stock#
+			</isNotNull>
+			<isNotNull property="unidadMedida" prepend="and">
+				AND
+				P.ID_UNIDAD_MEDIDA=
+				(SELECT U.ID_UNIDAD_MEDIDA FROM UNIDA_MEDIDA U
+				WHERE U.DESCRIPCION LIKE #unidadMedida#)
+   			 </isNotNull>
+		</dynamic>
+	</select>
+
+
+	<update id="modificarProducto" parameterClass="productoBean">
+		UPDATE PRODUCTO P 
+		SET
+		P.DESCRIPCION=#descripcion#,
+		P.STOCK=#stock#,
+		P.PRECIO=#precio#,
+		P.ID_UNIDAD_MEDIDA=(SELECT UM.ID_UNIDAD_MEDIDA 
+		FROM UNIDAD_MEDIDA UM WHERE UM.DESCRIPCION LIKE #unidadMedida#)
+		WHERE P.ID_PRODUCTO=#codigo#
+	</update>
+
+	<delete id="eliminarProducto" parameterClass="productoBean">
+		DELETE
+		PRODUCTO P
+		WHERE P.ID_PRODUCTO=#codigo#
+	</delete>
+
+	<insert id="agregarProducto" parameterClass="productoBean">
+		INSERT INTO PRODUCTO(DESCRIPCION,STOCK,PRECIO,ID_UNIDAD_MEDIDA)
+		VALUES (#descripcion#,#stock#,#precio#,
+				(SELECT UM.ID_UNIDAD_MEDIDA 
+				FROM UNIDAD_MEDIDA UM WHERE UM.DESCRIPCION LIKE #unidadMedida#)
+				)
+		<selectKey keyProperty="codigo">
+			SELECT SEQUENCE_PRODUCTO.CURRVAL AS CODIGO FROM DUAL
+		</selectKey>
+	</insert>
+
+</sqlMap>  

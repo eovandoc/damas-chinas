@@ -12,7 +12,11 @@
 		<property name="loginDAO" ref="loginDAO"></property>
 	</bean>
 
-	<bean id="mantenimientoService" class="diseno.sistemas.negocio.mantenimiento.impl.MantenimientoServiceImpl">
-		<property name="mantenimientoDAO" ref="mantenimientoDAO"></property>
+	<bean id="datosService" class="diseno.sistemas.negocio.mantenimiento.impl.DatosServiceImpl">
+		<property name="datosDAO" ref="datosDAO"></property>
+	</bean>
+	
+	<bean id="productoService" class="diseno.sistemas.negocio.mantenimiento.impl.ProductoServiceImpl">
+		<property name="productoDAO" ref="productoDAO"></property>
 	</bean>
 </beans>

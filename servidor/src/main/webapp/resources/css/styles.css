@@ -4,7 +4,7 @@ html,body {
 }
 
 .cabecera {
-	height: 15%;
+	height: 10%;
 
 }
 
@@ -16,12 +16,12 @@ html,body {
 }
 
 .cuerpo {
-	height: 80%
+	height: 86%
 }
 
 .pie {
 	border-top:solid 2px gray;
-	height: 5%
+	height: 4%
 }
 
 .pie img {
@@ -31,8 +31,16 @@ html,body {
 	height: 100%
 }
 
+.oculto{
+	visibility: hidden;
+}
 
-
+.panelAdministracion{
+	float: none;
+	margin: 0% 5% 0 5% ;
+	width: 90%;
+	
+}
 /*Inicio*/
 .loginForm {
 	float: none;

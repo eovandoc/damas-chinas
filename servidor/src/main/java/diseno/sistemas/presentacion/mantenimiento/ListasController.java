@@ -12,13 +12,13 @@ import javax.faces.bean.SessionScoped;
 import diseno.sistemas.dominio.mantenimiento.DatoGeneral;
 import diseno.sistemas.negocio.mantenimiento.DatosService;
 
-@ManagedBean
+@ManagedBean(name="listas")
 @SessionScoped
-public class MantenimientoController implements Serializable{
+public class ListasController implements Serializable{
 
-	private static final long serialVersionUID = 5662298712058774241L;
+	private static final long serialVersionUID = -3138645309270807456L;
 	
-	@ManagedProperty("#{mantenimientoService}")
+	@ManagedProperty("#{datosService}")
 	private DatosService datosService;
 	
 	private List<DatoGeneral> listaTipoDocumentos;
@@ -26,13 +26,11 @@ public class MantenimientoController implements Serializable{
 	private List<DatoGeneral> listaTipoComprobantes;
 	private List<DatoGeneral> listaEstadoCredito;
 	private List<DatoGeneral> listaUnidadesMedida;
+	private List<DatoGeneral> listaEstadoVenta;
 	
 	@PostConstruct
 	public void cargarListas(){
-		listaTipoDocumentos=datosService.cargarTiposDocumento();
-		listaPerfiles=datosService.cargarPerfiles();
-		listaTipoComprobantes=datosService.cargarTiposComprobante();
-		
+		listaUnidadesMedida=datosService.cargarUnidadesMedida();
 	}
 	
 	public List<DatoGeneral> getListaTipoDocumentos() {
@@ -41,7 +39,6 @@ public class MantenimientoController implements Serializable{
 	public void setListaTipoDocumentos(List<DatoGeneral> listaTipoDocumentos) {
 		this.listaTipoDocumentos = listaTipoDocumentos;
 	}
-
 	public List<DatoGeneral> getListaPerfiles() {
 		return listaPerfiles;
 	}
@@ -60,20 +57,24 @@ public class MantenimientoController implements Serializable{
 	public void setListaEstadoCredito(List<DatoGeneral> listaEstadoCredito) {
 		this.listaEstadoCredito = listaEstadoCredito;
 	}
-
 	public List<DatoGeneral> getListaUnidadesMedida() {
 		return listaUnidadesMedida;
 	}
-
 	public void setListaUnidadesMedida(List<DatoGeneral> listaUnidadesMedida) {
 		this.listaUnidadesMedida = listaUnidadesMedida;
 	}
-
+	public List<DatoGeneral> getListaEstadoVenta() {
+		return listaEstadoVenta;
+	}
+	public void setListaEstadoVenta(List<DatoGeneral> listaEstadoVenta) {
+		this.listaEstadoVenta = listaEstadoVenta;
+	}
 	public DatosService getDatosService() {
 		return datosService;
 	}
-
 	public void setDatosService(DatosService datosService) {
 		this.datosService = datosService;
 	}
+	
+	
 }

@@ -5,12 +5,39 @@ import java.util.List;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import diseno.sistemas.dominio.mantenimiento.DatoGeneral;
-import diseno.sistemas.integracion.mantenimiento.dao.MantenimientoDAO;
+import diseno.sistemas.dominio.mantenimiento.Producto;
+import diseno.sistemas.integracion.mantenimiento.dao.DatosDAO;
 
-public class MantenimientoDAOImpl extends SqlMapClientDaoSupport implements MantenimientoDAO {
-
+public class DatosDAOImpl extends SqlMapClientDaoSupport implements DatosDAO{
+	
+	/**
+	 * Funciones para manejar Unidades de Medida
+	 */
+	
 	@SuppressWarnings("unchecked")
-	@Override
+	public List<DatoGeneral> cargarUnidadesMedida() {
+		return getSqlMapClientTemplate().queryForList("mantenimiento.DATOS.cargarUnidadesMedida"); 
+	}
+
+	public DatoGeneral cargarUnidadMedidaPorCodigo(int codigo) {
+		return (DatoGeneral)getSqlMapClientTemplate().queryForObject("mantenimiento.DATOS.cargarUnidadMedidaPorCodigo",codigo);
+	}
+
+	public void modificarUnidadMedida(DatoGeneral datoGeneral) {
+		getSqlMapClientTemplate().update("mantenimiento.DATOS.modificarUnidadesMedida",datoGeneral);
+	}
+
+	public void eliminarUnidadMedida(DatoGeneral datoGeneral) {
+		getSqlMapClientTemplate().delete("mantenimiento.DATOS.eliminarUnidadMedida",datoGeneral);
+		
+	}
+
+	public DatoGeneral agregarUnidadMedida(DatoGeneral datoGeneral) {
+		return (DatoGeneral)getSqlMapClientTemplate().insert("mantenimiento.DATOS.agregarUnidadMedida", datoGeneral);
+	}
+
+	
+	@SuppressWarnings("unchecked")
 	public List<DatoGeneral> cargarTiposDocumento() {
 		return getSqlMapClientTemplate().queryForList("mantenimiento.MANTENIMIENTO.cargarTiposDocumento");
 	}
@@ -62,5 +89,12 @@ public class MantenimientoDAOImpl extends SqlMapClientDaoSupport implements Mant
 		// TODO Auto-generated method stub
 
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Producto> cargarTodosLosProductos() {
+		System.out.println("Esntro al dao");
+		return getSqlMapClientTemplate().queryForList("mantenimiento.PRODUCTO.cargarTodosLosProductos");		
+	}
+
 
 }

@@ -42,5 +42,6 @@
 
 	<bean id="clienteDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.ClienteDAOImpl" parent="baseDAO" />
 	<bean id="loginDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.LoginDAOImpl" parent="baseDAO" />
-	<bean id="mantenimientoDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.MantenimientoDAOImpl" parent="baseDAO" />
+	<bean id="datosDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.DatosDAOImpl" parent="baseDAO" />
+	<bean id="productoDAO" class="diseno.sistemas.integracion.mantenimiento.dao.impl.ProductoDAOImpl" parent="baseDAO" />
 </beans>

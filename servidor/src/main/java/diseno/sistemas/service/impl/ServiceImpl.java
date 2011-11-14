@@ -16,6 +16,7 @@ public class ServiceImpl implements Service {
 
 	
 	public Usuario iniciarSesion(Usuario usuario) {
+		System.out.println("Probando con "+usuario.getCuenta()+" "+usuario.getPassword());
 		return loginService.iniciarSesion(usuario); 
 	}
 

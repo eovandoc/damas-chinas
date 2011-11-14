@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="mantenimiento.DATOS">
+
+	<!-- ResultMaps -->
+	<resultMap class="diseno.sistemas.dominio.mantenimiento.DatoGeneral" id="DATOGENERAL">
+		<result property="codigo" column="CODIGO"/>
+		<result property="descripcion" column="DESCRIPCION"/>
+	</resultMap>
+	
+	<resultMap class="diseno.sistemas.dominio.mantenimiento.EstadoCredito" id="ESTADOCREDITO">
+		<result property="codigo" column="CODIGO"/>
+		<result property="descripcion" column="DESCRIPCION"/>
+		<result property="maximo" column="MONTO_MAXIMO"/>
+	</resultMap>
+	
+	<!-- TypeAlias -->
+	
+	<typeAlias alias="DatoGeneral" type="diseno.sistemas.dominio.mantenimiento.DatoGeneral"/>
+	
+	<!-- CONSULTAS PARA TIPOS DE DOCUMENTO -->
+
+	<select id="cargarTiposDocumento" resultMap="DATOGENERAL">
+		SELECT TP.ID_TIPO_DOCUMENTO AS CODIGO,TP.DESCRIPCION
+		FROM TIPO_DOCUMENTO TP
+	</select>
+	
+	<select id="cargaTipoDocumentoPorCodigo" resultMap="DATOGENERAL" parameterClass="java.lang.Integer">
+		SELECT TP.ID_TIPO_DOCUMENTO AS CODIGO,TP.DESCRIPCION
+		FROM TIPO_DOCUMENTO TP
+		WHERE TP.ID_TIPO_DOCUMENTO=#codigo#
+	</select>
+	
+	<update id="modificarTipoDocumento" parameterClass="DatoGeneral">
+	 	UPDATE TIPO_DOCUMENTO TP
+	 	SET TP.DESCRIPCION=#descripcion#
+	 	WHERE TP.ID_TIPO_DOCUMENTO=#codigo#
+	</update>
+	
+	<delete id="eliminarTipoDocumento" parameterClass="DatoGeneral">
+		DELETE TIPO_DOCUMENTO TP
+		WHERE TP.ID_TIPO_DOCUMENTO=#codigo#
+	</delete>
+	
+	<insert id="agregarTipoDocumento" parameterClass="DatoGeneral">
+		INSERT INTO TIPO_DOCUMENTO(DESCRIPCION)
+		VALUES (#descripcion#)
+		<selectKey>
+			SELECT SEQUENCE_TIPO_DOCUMENTO.CURRVAL AS CODIGO FROM DUAL
+		</selectKey>
+	</insert>	
+	
+	<!-- CONSULTAS PARA PERFILES -->
+	
+	<select id="cargarPerfiles" resultMap="DATOGENERAL">
+		SELECT P.ID_PERFIL AS CODIGO,P.DESCRIPCION
+		FROM PERFILES P
+	</select>
+	
+	<select id="cargaPerfilesPorCodigo" resultMap="DATOGENERAL" parameterClass="java.lang.Integer">
+		SELECT P.ID_PERFIL AS CODIGO,P.DESCRIPCION
+		FROM PERFILES P
+		WHERE P.ID_PERFIL=#codigo#
+	</select>
+	
+	<update id="modificarPerfil" parameterClass="DatoGeneral">
+	 	UPDATE PERFILES P
+	 	SET P.DESCRIPCION=#descripcion#
+	 	WHERE P.ID_PERFIL=#codigo#
+	</update>
+	
+	<delete id="eliminarPerfil" parameterClass="DatoGeneral">
+		DELETE PERFILES P
+		WHERE P.ID_PERFIL=#codigo#
+	</delete>
+	
+	<insert id="agregarPerfil" parameterClass="DatoGeneral">
+		INSERT INTO PERFILES(DESCRIPCION)
+		VALUES(#descripcion#)
+		<selectKey>
+			SELECT SEQUENCE_PERFIL.CURRVAL AS CODIGO FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<!-- CONSULTAS PARA TIPOS DE COMPROBANTE -->
+	
+	<select id="cargarTiposComprobante" resultMap="DATOGENERAL">
+		SELECT TC.ID_TIPO_COMPROBANTE AS CODIGO,TC.DESCRIPCION 
+		FROM TIPO_COMPROBANTE TC;
+	</select>
+	
+	<select id="cargaTipoComprobantePorCodigo" resultMap="DATOGENERAL" parameterClass="java.lang.Integer">
+		SELECT TC.ID_TIPO_COMPROBANTE AS CODIGO,TC.DESCRIPCION 
+		FROM TIPO_COMPROBANTE TC
+		WHERE TC.ID_TIPO_COMPROBANTE=#codigo#
+	</select>
+	
+	<update id="modificarTipoComprobante" parameterClass="DatoGeneral">
+	 	UPDATE TIPO_COMPROBANTE TC
+	 	SET TC.DESCRIPCION=#descripcion#
+	 	WHERE TC.ID_TIPO_COMPROBANTE=#codigo#
+	</update>
+	
+	<delete id="eliminarTipoComprobante" parameterClass="DatoGeneral">
+		DELETE TIPO_COMPROBANTE TC
+		WHERE TC.ID_TIPO_COMPROBANTE=#codigo#
+	</delete>
+	
+	<insert id="agregarTipoComprobante" parameterClass="DatoGeneral">
+		INSERT INTO TIPO_COMPROBANTE(DESCRIPCION)
+		VALUES(#descripcion#)
+		<selectKey>
+			SELECT SEQUENCE_TIPO_COMPROBANTE.CURRVAL AS CODIGO FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<!-- CONSULTAS PARA UNIDADES DE MEDIDA -->
+	
+	<select id="cargarUnidadesMedida" resultMap="DATOGENERAL">
+		SELECT UM.ID_UNIDAD_MEDIDA AS CODIGO,UM.DESCRIPCION 
+		FROM UNIDAD_MEDIDA UM
+	</select>
+	
+	<select id="cargarUnidadMedidaPorCodigo" resultMap="DATOGENERAL" parameterClass="java.lang.Integer">
+		SELECT UM.ID_UNIDAD_MEDIDA AS CODIGO,UM.DESCRIPCION 
+		FROM UNIDAD_MEDIDA UM
+		WHERE UM.ID_UNIDAD_MEDIDA=#codigo#
+	</select>
+	
+	<update id="modificarUnidadMedida" parameterClass="DatoGeneral">
+	 	UPDATE UNIDAD_MEDIDA UM
+	 	SET UM.DESCRIPCION=#descripcion#
+	 	WHERE UM.ID_UNIDAD_MEDIDA=#codigo#
+	</update>
+	
+	<delete id="eliminarUnidadMedida" parameterClass="DatoGeneral">
+		DELETE UNIDAD_MEDIDA UM
+		WHERE UM.ID_UNIDAD_MEDIDA=#codigo#
+	</delete>
+	
+	<insert id="agregarUnidadMedida" parameterClass="DatoGeneral">
+		INSERT INTO UNIDAD_MEDIDA(DESCRIPCION)
+		VALUES(#descripcion#)
+		<selectKey>
+			SELECT SEQUENCE_UNIDAD_MEDIDA.CURRVAL AS CODIGO FROM DUAL
+		</selectKey>
+	</insert>
+
+</sqlMap>
