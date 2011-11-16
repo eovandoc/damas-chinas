@@ -3,10 +3,13 @@ import com.cloudgarden.layout.AnchorLayout;
 import com.jgoodies.forms.layout.FormLayout;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -43,7 +47,6 @@ import javax.swing.SwingUtilities;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class BaseFrame extends javax.swing.JFrame {
-	private JMenuBar menuBar;
 	private JLabel lblObservaciones;
 	private JLabel txtFecha;
 	private JLabel lblFecha;
@@ -53,6 +56,9 @@ public class BaseFrame extends javax.swing.JFrame {
 	private JTextField txtTotal;
 	private JLabel lblIGV;
 	private JLabel lblTotal;
+	private JMenu jMenu1;
+	private JMenuBar menuBar;
+	private JPanel panelInicial;
 	private JTable tablaProductos;
 	private JButton jButton1;
 	private JButton btnBuscarVendedor;
@@ -67,8 +73,8 @@ public class BaseFrame extends javax.swing.JFrame {
 	private JPanel panelNuevaVenta;
 	private JButton btnNuevaVenta;
 	private JPanel panelCentral;
-	private JMenu Sistema;
 
+	private VentaTableModel ventaTableModel;
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
@@ -83,30 +89,19 @@ public class BaseFrame extends javax.swing.JFrame {
 			BorderLayout thisLayout = new BorderLayout();
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(thisLayout);
+
+			menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			
+	
+			getContentPane().add(menuBar,BorderLayout.NORTH);
 			{
 				panelCentral = new JPanel();
-				GridBagLayout panelCentralLayout = new GridBagLayout();
 				getContentPane().add(panelCentral, BorderLayout.CENTER);
-				panelCentralLayout.rowWeights = new double[] {0.0, 0.1, 0.1, 0.1};
-				panelCentralLayout.rowHeights = new int[] {64, 7, 7, 7};
-				panelCentralLayout.columnWeights = new double[] {0.0, 0.0, 0.1, 0.1};
-				panelCentralLayout.columnWidths = new int[] {226, 223, 7, 7};
+				CardLayout panelCentralLayout = new CardLayout();
 				panelCentral.setLayout(panelCentralLayout);
-				{
-					btnNuevaVenta = new JButton();
-					panelCentral.add(btnNuevaVenta, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					btnNuevaVenta.setName("btnNuevaVenta");
-				}
-			}
-			{
-				menuBar = new JMenuBar();
-				setJMenuBar(menuBar);
-				{
-					Sistema = new JMenu();
-					menuBar.add(Sistema);
-					Sistema.setName("Sistema");
-					Sistema.setSize(50, 21);
-				}
+				panelCentral.add(getPanelInicial(), "cardInicial");
+				panelCentral.add(getPanelNuevaVenta(), "cardNuevaVenta");
 			}
 			pack();
 			this.setSize(700, 450);
@@ -121,11 +116,11 @@ public class BaseFrame extends javax.swing.JFrame {
 		if(panelNuevaVenta == null) {
 			panelNuevaVenta = new JPanel();
 			GridBagLayout panelNuevaVentaLayout = new GridBagLayout();
-			panelNuevaVentaLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-			panelNuevaVentaLayout.rowHeights = new int[] {11, 20, 20, 24, 163, 20, 20, 20, 19};
+			panelNuevaVentaLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0};
+			panelNuevaVentaLayout.rowHeights = new int[] {11, 20, 20, 24, 163, 20, 20, 20, 20, 19};
 			panelNuevaVentaLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1};
-			panelNuevaVentaLayout.columnWidths = new int[] {18, 106, 92, 82, 31, 86, 63, 81, 20};
-			panelNuevaVenta.setPreferredSize(new java.awt.Dimension(585, 356));
+			panelNuevaVentaLayout.columnWidths = new int[] {46, 106, 92, 82, 31, 86, 63, 110, 20};
+			panelNuevaVenta.setPreferredSize(new java.awt.Dimension(636, 365));
 			panelNuevaVenta.setLayout(panelNuevaVentaLayout);
 			panelNuevaVenta.setSize(692, 391);
 			panelNuevaVenta.add(getLblCodigo(), new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -134,18 +129,18 @@ public class BaseFrame extends javax.swing.JFrame {
 			panelNuevaVenta.add(getLblProductos(), new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getTxtCliente(), new GridBagConstraints(2, 2, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getJButton1(), new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getLblVendedor(), new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getTxtVendedor(), new GridBagConstraints(2, 6, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getBtnBuscarVendedor(), new GridBagConstraints(4, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getLblObservaciones(), new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getJButton1x(), new GridBagConstraints(2, 7, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getLblVendedor(), new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getTxtVendedor(), new GridBagConstraints(2, 7, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getBtnBuscarVendedor(), new GridBagConstraints(4, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getLblObservaciones(), new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getJButton1x(), new GridBagConstraints(2, 8, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getTablaProductos(), new GridBagConstraints(1, 4, 7, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getLblTotal(), new GridBagConstraints(6, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getLblIGV(), new GridBagConstraints(6, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getTxtTotal(), new GridBagConstraints(7, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getTxtIGV(), new GridBagConstraints(7, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getBtnGuardar(), new GridBagConstraints(6, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getBtnCancelar(), new GridBagConstraints(7, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getLblTotal(), new GridBagConstraints(6, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getLblIGV(), new GridBagConstraints(6, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getTxtTotal(), new GridBagConstraints(7, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getTxtIGV(), new GridBagConstraints(7, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getBtnGuardar(), new GridBagConstraints(6, 8, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getBtnCancelar(), new GridBagConstraints(7, 8, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getLblFecha(), new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getTxtFecha(), new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		}
@@ -239,12 +234,10 @@ public class BaseFrame extends javax.swing.JFrame {
 	
 	private JTable getTablaProductos() {
 		if(tablaProductos == null) {
-			TableModel tablaProductosModel = 
-				new DefaultTableModel(
-						new String[][] { { "One", "Two" }, { "Three", "Four" } },
-						new String[] { "Column 1", "Column 2" });
+			ventaTableModel=new VentaTableModel();
 			tablaProductos = new JTable();
-			tablaProductos.setModel(tablaProductosModel);
+			tablaProductos.setModel(ventaTableModel);
+			tablaProductos.setName("tableVentas");
 		}
 		return tablaProductos;
 	}
@@ -310,6 +303,48 @@ public class BaseFrame extends javax.swing.JFrame {
 			txtFecha = new JLabel();
 		}
 		return txtFecha;
+	}
+
+	public VentaTableModel getVentaTableModel() {
+		return ventaTableModel;
+	}
+
+	public void setVentaTableModel(VentaTableModel ventaTableModel) {
+		this.ventaTableModel = ventaTableModel;
+	}
+	
+	private JPanel getPanelInicial() {
+		if(panelInicial == null) {
+			panelInicial = new JPanel();
+			GridBagLayout panelInicialLayout = new GridBagLayout();
+			panelInicialLayout.columnWidths = new int[] {199, 252, 7};
+			panelInicialLayout.rowHeights = new int[] {59, 91, 7, 7};
+			panelInicialLayout.columnWeights = new double[] {0.0, 0.0, 0.1};
+			panelInicialLayout.rowWeights = new double[] {0.0, 0.0, 0.1, 0.1};
+			panelInicial.setLayout(panelInicialLayout);
+			panelInicial.setPreferredSize(new java.awt.Dimension(636, 429));
+			{
+				btnNuevaVenta = new JButton();
+				panelInicial.add(btnNuevaVenta, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				panelCentral.add(getPanelInicial(), "cardInicial");
+				btnNuevaVenta.setName("btnNuevaVenta");
+				btnNuevaVenta.setPreferredSize(new java.awt.Dimension(684, 360));
+				btnNuevaVenta.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						((CardLayout)panelCentral.getLayout()).show(panelCentral,"cardNuevaVenta");
+					}
+				});
+			}
+		}
+		return panelInicial;
+	}
+	
+	private JMenu getJMenu1() {
+		if(jMenu1 == null) {
+			jMenu1 = new JMenu();
+			jMenu1.setName("jMenu1");
+		}
+		return jMenu1;
 	}
 
 }

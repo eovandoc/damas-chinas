@@ -28,8 +28,12 @@ public class Principal implements DatosListener{
 
 
 	public void notificarCambios(DatosEvent datosEvent) {
-		if(datosEvent.getOrigen().equals("InicioSesion"))
+		if(datosEvent.getOrigen().equals("InicioSesion") && datosEvent.getUsuario()!=null){
 			System.out.println("Hay que llamar a la pantalla principal!");
+			BaseFrame baseFrame=new BaseFrame();
+			baseFrame.setVisible(true);
+		}
+		
 		System.out.println("Se ingreso con los datos del usuario "+datosEvent.getUsuario().getNombres());
 	}
 	
