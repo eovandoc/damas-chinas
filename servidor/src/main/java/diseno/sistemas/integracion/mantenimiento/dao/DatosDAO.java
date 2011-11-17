@@ -9,6 +9,9 @@ public interface DatosDAO {
 	
 public List<DatoGeneral> cargarTiposDocumento();
 	
+
+	public String getFechaSistema();
+
 	/**
 	 * Funciones para manejar Unidades de Medida
 	 */

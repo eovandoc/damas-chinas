@@ -18,6 +18,10 @@
 	
 	<typeAlias alias="DatoGeneral" type="diseno.sistemas.dominio.mantenimiento.DatoGeneral"/>
 	
+	<select id="fechaSistema" resultClass="java.lang.String">
+		SELECT TO_CHAR(SYSDATE,'dd/mm/yyyy') FROM DUAL
+	</select>
+	
 	<!-- CONSULTAS PARA TIPOS DE DOCUMENTO -->
 
 	<select id="cargarTiposDocumento" resultMap="DATOGENERAL">

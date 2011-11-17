@@ -12,6 +12,10 @@ public class DatosServiceImpl implements DatosService {
 	
 	private DatosDAO datosDAO;
 	
+	@Override
+	public String getFechaSistema() {
+		return datosDAO.getFechaSistema();
+	}
 	
 	@Override
 	public List<DatoGeneral> cargarTiposDocumento() {
@@ -130,5 +134,7 @@ public class DatosServiceImpl implements DatosService {
 	public DatoGeneral agregarUnidadMedida(DatoGeneral datoGeneral) {
 		return datosDAO.agregarUnidadMedida(datoGeneral);
 	}
+
+	
 
 }

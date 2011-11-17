@@ -9,6 +9,10 @@ import diseno.sistemas.dominio.mantenimiento.Producto;
 import diseno.sistemas.integracion.mantenimiento.dao.DatosDAO;
 
 public class DatosDAOImpl extends SqlMapClientDaoSupport implements DatosDAO{
+		
+	public String getFechaSistema() {
+		return (String)getSqlMapClientTemplate().queryForObject("mantenimiento.DATOS.fechaSistema");
+	}
 	
 	/**
 	 * Funciones para manejar Unidades de Medida
@@ -95,6 +99,7 @@ public class DatosDAOImpl extends SqlMapClientDaoSupport implements DatosDAO{
 		System.out.println("Esntro al dao");
 		return getSqlMapClientTemplate().queryForList("mantenimiento.PRODUCTO.cargarTodosLosProductos");		
 	}
+
 
 
 }

@@ -7,6 +7,8 @@ import diseno.sistemas.dominio.mantenimiento.Producto;
 
 public interface DatosService {
 	
+	
+	public String getFechaSistema();
 	/**
 	 * Funciones para manejar Unidades de Medida
 	 */

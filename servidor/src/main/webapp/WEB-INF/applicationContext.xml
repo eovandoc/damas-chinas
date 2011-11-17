@@ -10,6 +10,7 @@
 	<bean id="service" class="diseno.sistemas.service.impl.ServiceImpl">
 		<property name="loginService" ref="loginService"/>
 		<property name="clienteService" ref="clienteService"/>
+		<property name="datosService" ref="datosService"/>
 	</bean>
 	
 	<!-- Exporter -->
