@@ -1,11 +1,10 @@
-package diseno.sistemas.presentacion.principal;
+package diseno.sistemas.dominio.ventas;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import diseno.sistemas.dominio.ventas.LineaVenta;
 
 public class VentaTableModel extends AbstractTableModel{
 	

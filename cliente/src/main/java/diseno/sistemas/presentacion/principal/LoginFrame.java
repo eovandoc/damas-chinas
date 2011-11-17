@@ -229,7 +229,7 @@ public class LoginFrame extends javax.swing.JFrame {
 			try {
 				usuario = service.iniciarSesion(usuario);
 				DatosEvent datosEvent = new DatosEvent(this, usuario,
-						"InicioSesion");
+						"InicioSesion",null);
 				listener.notificarCambios(datosEvent);
 				this.dispose();
 			} catch (NullPointerException e) {

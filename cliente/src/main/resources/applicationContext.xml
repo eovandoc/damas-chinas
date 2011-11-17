@@ -7,7 +7,7 @@
 	<bean id="httpInvokerProxy" 
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl"
-			value="http://localhost:8090/ServidorVentas/service" />
+			value="http://localhost:8080/ServidorVentas/service" />
 		<property name="serviceInterface" value="diseno.sistemas.service.Service" />
 	</bean>
 

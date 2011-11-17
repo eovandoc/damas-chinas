@@ -22,6 +22,7 @@ public class Principal implements DatosListener{
 		super();
 		cargarServicio();
 		System.out.println(service.saludo());
+		//System.out.println(service.getFechaSistema());
 		LoginFrame login=new LoginFrame(this,service);
 		
 	}
@@ -29,12 +30,9 @@ public class Principal implements DatosListener{
 
 	public void notificarCambios(DatosEvent datosEvent) {
 		if(datosEvent.getOrigen().equals("InicioSesion") && datosEvent.getUsuario()!=null){
-			System.out.println("Hay que llamar a la pantalla principal!");
-			BaseFrame baseFrame=new BaseFrame();
-			baseFrame.setVisible(true);
+			System.out.println("Se ingreso con los datos del usuario "+datosEvent.getUsuario().getNombres());
+			BaseFrame baseFrame=new BaseFrame(this,service);
 		}
-		
-		System.out.println("Se ingreso con los datos del usuario "+datosEvent.getUsuario().getNombres());
 	}
 	
 	public void cargarServicio(){
