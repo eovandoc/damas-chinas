@@ -12,6 +12,10 @@ public class LineaVenta implements Serializable{
 	private double precio;
 	private int cantidad;
 	private double precioTotal;
+	private int codigoUndMedida;
+	private String unidadMedida;
+	
+	
 	public int getCodigo() {
 		return codigo;
 	}
@@ -41,6 +45,18 @@ public class LineaVenta implements Serializable{
 	}
 	public void setPrecioTotal(double precioTotal) {
 		this.precioTotal = precioTotal;
+	}
+	public int getCodigoUndMedida() {
+		return codigoUndMedida;
+	}
+	public void setCodigoUndMedida(int codigoUndMedida) {
+		this.codigoUndMedida = codigoUndMedida;
+	}
+	public String getUnidadMedida() {
+		return unidadMedida;
+	}
+	public void setUnidadMedida(String unidadMedida) {
+		this.unidadMedida = unidadMedida;
 	}
 	
 	

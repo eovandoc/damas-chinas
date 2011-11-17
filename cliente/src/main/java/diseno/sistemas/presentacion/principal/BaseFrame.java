@@ -13,6 +13,10 @@ import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ApplicationActionMap;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
+import diseno.sistemas.dominio.mantenimiento.Usuario;
+import diseno.sistemas.dominio.ventas.Venta;
 import diseno.sistemas.dominio.ventas.VentaTableModel;
 import diseno.sistemas.service.Service;
 import diseno.sistemas.util.DatosEvent;
@@ -63,20 +67,21 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 	private JLabel lblIGV;
 	private JLabel lblTotal;
 	private JTable tablaProductos;
-	private JButton btnBuscarVendedor;
 	private JLabel lblCliente;
-	private JTextField txtVendedor;
 	private JLabel lblVendedor;
 	private JButton btnBuscarClientes;
 	private JTextField txtCliente;
 	private JLabel lblProductos;
 	private JButton btnObservaciones;
+	private JLabel txtVendedor;
+	private JButton btnAgregarProducto;
 	private JLabel lblNuevaVenta;
 
 	private VentaTableModel ventaTableModel;
 	
 	private DatosListener listener;
 	private Service service;
+	private Venta venta=new Venta();
 	
 	/**
 	* Auto-generated main method to display this JFrame
@@ -101,7 +106,7 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 				panelBase.setPreferredSize(new java.awt.Dimension(692, 391));
 				panelBase.add(getPanelInicial(), "cardInicial");
 				panelBase.add(getPanelNuevaVenta(), "cardNuevaVenta");
-				
+
 			}
 			this.setSize(700, 450);
 			{
@@ -241,22 +246,7 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 		}
 		return lblVendedor;
 	}
-	
-	private JTextField getTxtVendedor() {
-		if(txtVendedor == null) {
-			txtVendedor = new JTextField();
-		}
-		return txtVendedor;
-	}
-	
-	private JButton getBtnBuscarVendedor() {
-		if(btnBuscarVendedor == null) {
-			btnBuscarVendedor = new JButton();
-			btnBuscarVendedor.setName("btnBuscarVendedor");
-		}
-		return btnBuscarVendedor;
-	}
-	
+
 	private JLabel getLblObservaciones() {
 		if(lblObservaciones == null) {
 			lblObservaciones = new JLabel();
@@ -328,6 +318,7 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 		if(btnObservaciones == null) {
 			btnObservaciones = new JButton();
 			btnObservaciones.setName("btnObservaciones");
+			btnObservaciones.setAction(getAppActionMap().get("observacionesACtion"));
 		}
 		return btnObservaciones;
 	}
@@ -344,6 +335,7 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 		if(txtFecha == null) {
 			txtFecha = new JLabel();
 			txtFecha.setText(getService().getFechaSistema());
+			venta.setFecha(txtFecha.getText());
 		}
 		return txtFecha;
 	}
@@ -404,7 +396,7 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 			panelNuevaVentaLayout.rowHeights = new int[] {20, 20, 20, 25, 166, 10, 20, 20, 10, 37, 20};
 			panelNuevaVentaLayout.columnWeights = new double[] {0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0};
 			panelNuevaVentaLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1};
-			panelNuevaVenta.setPreferredSize(new java.awt.Dimension(692, 416));
+			panelNuevaVenta.setPreferredSize(new java.awt.Dimension(684, 412));
 			panelNuevaVenta.setLayout(panelNuevaVentaLayout);
 			panelNuevaVenta.setSize(692, 416);
 			panelNuevaVenta.add(getLblCliente(), new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -412,8 +404,6 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 			panelNuevaVenta.add(getTxtCliente(), new GridBagConstraints(2, 2, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getJButton1(), new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getLblVendedor(), new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getTxtVendedor(), new GridBagConstraints(2, 7, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panelNuevaVenta.add(getBtnBuscarVendedor(), new GridBagConstraints(4, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getLblObservaciones(), new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getJButton1x(), new GridBagConstraints(2, 9, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getTablaProductos(), new GridBagConstraints(1, 4, 7, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -426,6 +416,8 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 			panelNuevaVenta.add(getLblFecha(), new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getTxtFecha(), new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			panelNuevaVenta.add(getLblNuevaVenta(), new GridBagConstraints(1, 0, 1, 2, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getBtnAgregarProducto(), new GridBagConstraints(7, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			panelNuevaVenta.add(getTxtVendedor(), new GridBagConstraints(3, 7, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		return panelNuevaVenta;
 	}
@@ -467,9 +459,66 @@ public class BaseFrame extends javax.swing.JFrame implements DatosListener {
 
 	@Override
 	public void notificarCambios(DatosEvent datosEvent) {
-		if(datosEvent.getOrigen().equals("listaClientes"))
-			System.out.println("Se vino de lista Clientes con el cliente"+datosEvent.getCliente().getNombres());
+		if(datosEvent.getOrigen().equals("listaClientesFrame")){
+			txtCliente.setText(datosEvent.getCliente().getNombres()+" "+datosEvent.getCliente().getaPaterno()+" "+datosEvent.getCliente().getaMaterno());
+			venta.setCliente(datosEvent.getCliente());
+		}
+		if(datosEvent.getOrigen().equals("observacionesFrame")){
+			System.out.println("vino de observacionesFrame");
+			venta.setObservaciones(datosEvent.getObservaciones());
+			System.out.println(venta.getObservaciones());
+		}
+	}
+	
+	private JButton getBtnAgregarProducto() {
+		if(btnAgregarProducto == null) {
+			btnAgregarProducto = new JButton();
+			btnAgregarProducto.setName("btnAgregarProducto");
+			btnAgregarProducto.setAction(getAppActionMap().get("agregarProductoAction"));
+		}
+		return btnAgregarProducto;
+	}
+	
+	@Action
+	public void agregarProductoAction() {
+	}
+	
+	public void calcularMontos(){
+		double total=0.0;
+		double igv=0.0;
+		for(int i=0;i<venta.getListaProductos().size();i++){
+			total+=venta.getListaProductos().get(i).getPrecioTotal();
+		}
+		igv=total*0.18;
 		
+		venta.setTotal(total);
+		venta.setIgv(igv);
+		txtTotal.setText(Double.toString(total));
+		txtIGV.setText(Double.toString(igv));
+		
+	}	
+	
+	
+	public void calcularIGV(){
+		
+	}
+	
+	public JLabel getTxtVendedor() {
+		if(txtVendedor == null) {
+			txtVendedor = new JLabel();
+			Usuario user=((Principal)listener).getUsuario();
+			txtVendedor.setText(user.getNombres()+" "+user.getaPaterno()+" "+user.getaMaterno());
+			venta.setUsuario(user);
+		}
+		return txtVendedor;
+	}
+	
+	@Action
+	public void observacionesACtion() {
+		if(venta.getObservaciones()!=null)
+			new ObservacionesFrame(this,venta.getObservaciones());
+		else
+			new ObservacionesFrame(this,"");
 	}
 
 }

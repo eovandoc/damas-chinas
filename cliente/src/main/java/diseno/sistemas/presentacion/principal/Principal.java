@@ -6,6 +6,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import diseno.sistemas.dominio.mantenimiento.Usuario;
 import diseno.sistemas.service.Service;
 import diseno.sistemas.util.DatosEvent;
 import diseno.sistemas.util.DatosListener;
@@ -13,6 +14,7 @@ import diseno.sistemas.util.DatosListener;
 public class Principal implements DatosListener{
 
 	private Service service;
+	private Usuario usuario;
 	/**
 	 * Launch the application.
 	 */
@@ -31,7 +33,8 @@ public class Principal implements DatosListener{
 	public void notificarCambios(DatosEvent datosEvent) {
 		if(datosEvent.getOrigen().equals("InicioSesion") && datosEvent.getUsuario()!=null){
 			System.out.println("Se ingreso con los datos del usuario "+datosEvent.getUsuario().getNombres());
-			BaseFrame baseFrame=new BaseFrame(this,service);
+			setUsuario(datosEvent.getUsuario());
+			new BaseFrame(this,service);
 		}
 	}
 	
@@ -48,6 +51,16 @@ public class Principal implements DatosListener{
 
 	public void setService(Service service) {
 		this.service = service;
+	}
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

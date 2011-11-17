@@ -15,6 +15,7 @@ public class DatosEvent extends EventObject {
 	private Usuario usuario;
 	private String origen;
 	private Cliente cliente;
+	private String observaciones;
 		
 	//El primer parametro indica la fuente del sucesso
 	
@@ -52,6 +53,14 @@ public class DatosEvent extends EventObject {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 	
 

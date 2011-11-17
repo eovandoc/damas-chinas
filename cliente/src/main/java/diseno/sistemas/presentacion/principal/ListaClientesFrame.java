@@ -1,28 +1,20 @@
 package diseno.sistemas.presentacion.principal;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.List;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ApplicationActionMap;
 
 import diseno.sistemas.dominio.ventas.ClienteTableModel;
 import diseno.sistemas.service.Service;
+import diseno.sistemas.util.DatosEvent;
 import diseno.sistemas.util.DatosListener;
-
-import javax.swing.SwingUtilities;
 
 
 /**
@@ -48,8 +40,8 @@ public class ListaClientesFrame extends javax.swing.JFrame {
 	private ClienteTableModel clienteTableModel;
 	private JButton btnCancelar;
 	private JTable tablaClientes;
-	private JLabel lblListaClientes;
 	private JButton btnAceptar;
+	private JLabel lblListaClientes;
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
@@ -61,41 +53,43 @@ public class ListaClientesFrame extends javax.swing.JFrame {
 		clienteTableModel=new ClienteTableModel(service.cargarTodosLosClientes());
 		initGUI();
 		this.setLocationRelativeTo(null);
+		
 		this.setVisible(true);
 	}
 	
 	private void initGUI() {
 		try {
-			FormLayout thisLayout = new FormLayout(
-					"max(p;5dlu), 21dlu, 104dlu, 106dlu", 
-					"max(p;5dlu), 18dlu, 8dlu, 132dlu, 8dlu, 27dlu");
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			getContentPane().setLayout(thisLayout);
+			getContentPane().setLayout(null);
 			{
-				btnAceptar = new JButton();
-				getContentPane().add(btnAceptar, new CellConstraints("3, 6, 1, 1, center, fill"));
-				btnAceptar.setName("btnAceptar");
-				btnAceptar.setAction(getAppActionMap().get("aceptarAction"));
+				lblListaClientes = new JLabel();
+				getContentPane().add(lblListaClientes, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				lblListaClientes.setName("lblListaClientes");
+				lblListaClientes.setBounds(161, 12, 132, 20);
 			}
 			{
 				btnCancelar = new JButton();
-				getContentPane().add(btnCancelar, new CellConstraints("4, 6, 1, 1, center, fill"));
+				getContentPane().add(btnCancelar, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 				btnCancelar.setName("btnCancelar");
 				btnCancelar.setAction(getAppActionMap().get("cancelarAction"));
+				btnCancelar.setBounds(263, 261, 104, 58);
 			}
 			{
-				lblListaClientes = new JLabel();
-				getContentPane().add(lblListaClientes, new CellConstraints("3, 2, 2, 1, center, default"));
-				lblListaClientes.setName("lblListaClientes");
+				btnAceptar = new JButton();
+				getContentPane().add(btnAceptar, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+				btnAceptar.setName("btnAceptar");
+				btnAceptar.setAction(getAppActionMap().get("aceptarAction"));
+				btnAceptar.setBounds(94, 260, 93, 59);
 			}
 			{
+
 				tablaClientes = new JTable();
-				getContentPane().add(tablaClientes, new CellConstraints("3, 4, 2, 1, fill, fill"));
+				getContentPane().add(tablaClientes, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				tablaClientes.setModel(clienteTableModel);
-				
+				tablaClientes.setBounds(41, 44, 386, 203);
 			}
 			pack();
-			this.setSize(400, 350);
+			this.setSize(484, 367);
 			Application.getInstance().getContext().getResourceMap(getClass()).injectComponents(getContentPane());
 		} catch (Exception e) {
 		    //add your error handling code here
@@ -130,7 +124,12 @@ public class ListaClientesFrame extends javax.swing.JFrame {
 	
 	@Action
 	public void aceptarAction() {
-		
+		if(tablaClientes.getSelectedRow()!=-1){
+			DatosEvent evento= new DatosEvent(this,"listaClientesFrame");
+			evento.setCliente(clienteTableModel.getCliente(tablaClientes.getSelectedRow()));
+			listener.notificarCambios(evento);
+			this.dispose();
+		}
 	}
 	
     /**
@@ -147,4 +146,8 @@ public class ListaClientesFrame extends javax.swing.JFrame {
 		this.dispose();
 	}
 	
+	public JTable getTablaClientes() {
+		return tablaClientes;
+	}
+
 }
